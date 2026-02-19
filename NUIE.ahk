@@ -8,18 +8,20 @@ CapsLock::
     if (navMode)
     {
         ; Gui fixe en bas a gauche de l'écran
-        Gui, WinNavMode:New
-        Gui, WinNavMode:+AlwaysOnTop -Caption +ToolWindow
-        Gui, WinNavMode:Color, 880D1E
-        Gui, WinNavMode:Font, cWhite s10 Bold, Segoe UI
-        Gui, WinNavMode:Add, Text,, NAVIGATION MODE
-        Gui, WinNavMode:Show, x10 y1030 NoActivate
+        Gui, WinMode:New
+        Gui, WinMode:+AlwaysOnTop -Caption +ToolWindow
+        Gui, WinMode:Color, 880D1E
+        Gui, WinMode:Font, cWhite s10 Bold, Segoe UI
+        Gui, WinMode:Add, Text,, NAVIGATION MODE
+        Gui, WinMode:Show, x10 y1030 NoActivate
 
     }
     else
     {
         ; Supprime le GUI
-        Gui, WinNavMode:Destroy
+        Gui, WinMode:Destroy
+        ; Supprime le GUI de selection si il est actif
+        Gui, SelMode:Destroy
     }
 return
 
@@ -30,11 +32,78 @@ return
 ; uniquement si navMode = true
 #If navMode
 
+
+
+
+
+
+
+
+
 ; Touches de navigation
 n::Send {Left}
 e::Send {Down}
 u::Send {Up}
 i::Send {Right}
+
+; Navigation plus ctrl
+^n::Send ^{Left}
+^e::Send ^{Down}
+^u::Send ^{Up}
+^i::Send ^{Right}
+
+
+
+
+; selection
++n::Send +{Left}
++e::Send +{Down}
++u::Send +{Up}
++i::Send +{Right}
+
+; Navigation plus ctrl
+^+n::Send ^+{Left}
+^+e::Send ^+{Down}
+^+u::Send ^+{Up}
+^+i::Send ^+{Right}
+
+
+
+
+
+
+
+
+; Touches de supression
+; suprimer un charactere
+t::Send {BackSpace}
+
+; suprimer un mot
+d::send ^{BackSpace}
+
+
+
+
+
+
+; annuler
+a::send ^{z}
+
+; retablir
+q::send ^+{z}
+
+
+
+
+; copier coller
+c::send ^{c}
+v::send ^{v}
+
+
+
+
+
+
 
 
 #If
