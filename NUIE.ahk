@@ -1,8 +1,15 @@
-; --- Toggle navigation mode pour VS Code ---
+; --- Toggle navigation mode and math mode---
+
+
+
+
+
+
+
 
 navMode := false
 
-; Majuscule pour activer/désactiver le mode navigation partout
+; Majuscule pour activer/désactiver le mode navigation
 CapsLock::  
     navMode := !navMode
     if (navMode)
@@ -31,11 +38,6 @@ return
 
 ; uniquement si navMode = true
 #If navMode
-
-
-
-
-
 
 
 
@@ -72,8 +74,6 @@ i::Send {Right}
 
 
 
-
-
 ; Touches de supression
 ; suprimer un charactere
 t::Send {BackSpace}
@@ -85,9 +85,8 @@ d::send ^{BackSpace}
 
 
 
-
 ; annuler
-a::send ^{z}
+z::send ^{z}
 
 ; retablir
 q::send ^+{z}
@@ -101,9 +100,60 @@ v::send ^{v}
 
 
 
-
-
-
-
-
 #If
+
+
+
+
+
+
+
+
+
+; character mathematique
+MathMode := false
+
+
+::mathmode::
+    MathMode := !MathMode
+    if (MathMode)
+    {
+        Tooltip, Math Mode ON
+    }
+    else
+    {
+        Tooltip, Math Mode OFF
+    }
+    SetTimer, RemoveToolTip, -1000
+return
+
+
+
+RemoveToolTip:
+    Tooltip
+return
+
+
+#if MathMode
+
+:*:eql::{=}
+:*:pls::{+}
+:*:mns::{-}
+:*:mlt::{*}
+
+#if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
