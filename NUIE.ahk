@@ -1,4 +1,5 @@
 ; --- Toggle navigation mode and math mode---
+; attention a #if
 
 
 
@@ -36,71 +37,102 @@ return
 
 
 
-; uniquement si navMode = true
-#If navMode
+
+
+
+#if (navMode && !selMode) ;selMode declarer plus tard ligne 68 si pas changer
+    ; Touches de nlavigation
+    n::Send {Left}
+    e::Send {Down}
+    u::Send {Up}
+    i::Send {Right}
+#if
 
 
 
 
-; Touches de navigation
-n::Send {Left}
-e::Send {Down}
-u::Send {Up}
-i::Send {Right}
-
-; Navigation plus ctrl
-^n::Send ^{Left}
-^e::Send ^{Down}
-^u::Send ^{Up}
-^i::Send ^{Right}
+#if navMode
+    ; Navigation plus ctrl
+    ^n::Send ^{Left}
+    ^e::Send ^{Down}
+    ^u::Send ^{Up}
+    ^i::Send ^{Right}
 
 
-
-
-; selection
-+n::Send +{Left}
-+e::Send +{Down}
-+u::Send +{Up}
-+i::Send +{Right}
-
-; Navigation plus ctrl
-^+n::Send ^+{Left}
-^+e::Send ^+{Down}
-^+u::Send ^+{Up}
-^+i::Send ^+{Right}
+    ; selection
+    +n::Send +{Left}
+    +e::Send +{Down}
+    +u::Send +{Up}
+    +i::Send +{Right}
+#if
 
 
 
 
+#if navMode
+
+    selMode := false
+
+    s::
+        selMode := !selMode
+        if (selMode && navMode)
+        {
+            Tooltip, Selection Mode ON
+        }
+        else if (navMode)
+        {   
+            Tooltip, Selection Mode OFF
+        }
+        SetTimer, RemoveToolTip, -1000
+    return
+
+#if
 
 
-; Touches de supression
-; suprimer un charactere
-t::Send {BackSpace}
 
-; suprimer un mot
-d::send ^{BackSpace}
-
-
-
-
-
-; annuler
-z::send ^{z}
-
-; retablir
-q::send ^+{z}
+#if (selMode && navMode)
+    ; selection plus ctrl
+    n::Send ^+{Left}
+    e::Send ^+{Down}
+    u::Send ^+{Up}
+    i::Send ^+{Right}
+#if selMode
 
 
 
 
-; copier coller
-c::send ^{c}
-v::send ^{v}
+#if navMode
+
+    ; Touches de supression
+    ; suprimer un charactere
+    t::Send {BackSpace}
+
+    ; suprimer un mot
+    d::send ^{BackSpace}
+
+
+
+
+
+    ; annuler
+    z::send ^{z}
+
+    ; retablir
+    q::send ^+{z}
+
+
+
+
+    ; copier coller
+    c::send ^{c}
+    v::send ^{v}
 
 
 
 #If
+
+
+
 
 
 
@@ -136,10 +168,10 @@ return
 
 #if MathMode
 
-:*:eql::{=}
-:*:pls::{+}
-:*:mns::{-}
-:*:mlt::{*}
+    :*:eql::{=}
+    :*:pls::{+}
+    :*:mns::{-}
+    :*:,,::{*}
 
 #if
 
