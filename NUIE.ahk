@@ -1,6 +1,6 @@
 ; --- Toggle navigation mode and math mode---
 ; attention a #if
-
+; variable peut etre declarer plus tard
 
 
 
@@ -9,10 +9,12 @@
 
 
 navMode := false
+selMode := false
 
 ; Majuscule pour activer/désactiver le mode navigation
 CapsLock::  
     navMode := !navMode
+    
     if (navMode)
     {
         ; Gui fixe en bas a gauche de l'écran
@@ -30,6 +32,8 @@ CapsLock::
         Gui, WinMode:Destroy
         ; Supprime le GUI de selection si il est actif
         Gui, SelMode:Destroy
+
+        selMode := False ; desactive le mode selection si il est actif
     }
 return
 
@@ -71,7 +75,7 @@ return
 
 #if navMode
 
-    selMode := false
+    
 
     s::
         selMode := !selMode
