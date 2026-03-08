@@ -9,7 +9,8 @@
 
 
 navMode := false
-selMode := false
+subMode := "none"
+selMode := false ;inutile
 
 ; Majuscule pour activer/désactiver le mode navigation
 CapsLock::  
@@ -17,6 +18,8 @@ CapsLock::
     
     if (navMode)
     {
+        subMode := "none"
+
         ; Gui fixe en bas a gauche de l'écran
         Gui, WinMode:New
         Gui, WinMode:+AlwaysOnTop -Caption +ToolWindow
@@ -28,12 +31,15 @@ CapsLock::
     }
     else
     {
+        subMode := "none"
+
         ; Supprime le GUI
         Gui, WinMode:Destroy
         ; Supprime le GUI de selection si il est actif
         Gui, SelMode:Destroy
 
         selMode := False ; desactive le mode selection si il est actif
+        winswitchMode := False ; desactive le mode changement de fenetres
     }
 return
 
@@ -44,7 +50,7 @@ return
 
 
 
-#if (navMode && !selMode) ;selMode declarer plus tard ligne 68 si pas changer
+#if (navMode && subMode = "none" ) ;activer uniuqment quand navMode est actif
     ; Touches de nlavigation
     n::Send {Left}
     e::Send {Down}
@@ -55,7 +61,7 @@ return
 
 
 
-#if navMode
+#if (navMode && subMode = "select")
     ; Navigation plus ctrl
     ^n::Send ^{Left}
     ^e::Send ^{Down}
@@ -75,17 +81,21 @@ return
 
 #if navMode
 
-    
-
     s::
-        selMode := !selMode
-        if (selMode && navMode)
+        ;selMode := !selMode
+        if (subMode = "none" || (subMode != "none" && subMode != "select"))
         {
+            subMode := "select"
+
+            Gui, WinMode:Color, 6600CC
             Tooltip, Selection Mode ON
         }
-        else if (navMode)
+        else
         {   
+            subMode := "none"
+
             Tooltip, Selection Mode OFF
+            Gui, WinMode:Color, 880D1E
         }
         SetTimer, RemoveToolTip, -1000
     return
@@ -94,7 +104,7 @@ return
 
 
 
-#if (selMode && navMode)
+#if (subMode = "select")
     ; selection plus ctrl
     n::Send ^+{Left}
     e::Send ^+{Down}
@@ -140,46 +150,7 @@ return
 
 
 
-
-
-
-
-
-
-; character mathematique
-MathMode := false
-
-
-::mathmode::
-    MathMode := !MathMode
-    if (MathMode)
-    {
-        Tooltip, Math Mode ON
-    }
-    else
-    {
-        Tooltip, Math Mode OFF
-    }
-    SetTimer, RemoveToolTip, -1000
-return
-
-
-
-RemoveToolTip:
-    Tooltip
-return
-
-
-#if MathMode
-
-    :*?:eql::{=}
-    :*?:pls::{+}
-    :*?:mns::{-}
-    :*?:,,::{*}
-
-    :*?:six::{6}
-
-#if
+#Include, winswitchMode.ahk
 
 
 
@@ -189,7 +160,14 @@ return
 
 
 
+;scipt math mode
+#Include, mathMode.ahk
 
+
+
+
+;script pour eteinder+veille+verrouiller mom ordi avec turnoff+tab
+#Include, turnoff.ahk
 
 
 
