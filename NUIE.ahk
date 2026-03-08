@@ -23,7 +23,7 @@ CapsLock::
         ; Gui fixe en bas a gauche de l'écran
         Gui, WinMode:New
         Gui, WinMode:+AlwaysOnTop -Caption +ToolWindow
-        Gui, WinMode:Color, 880D1E
+        Gui, WinMode:Color, F44E3F
         Gui, WinMode:Font, cWhite s10 Bold, Segoe UI
         Gui, WinMode:Add, Text,, NAVIGATION MODE
         Gui, WinMode:Show, x10 y1030 NoActivate
@@ -87,7 +87,7 @@ return
         {
             subMode := "select"
 
-            Gui, WinMode:Color, 6600CC
+            Gui, WinMode:Color, 5C946E
             Tooltip, Selection Mode ON
         }
         else
@@ -95,7 +95,7 @@ return
             subMode := "none"
 
             Tooltip, Selection Mode OFF
-            Gui, WinMode:Color, 880D1E
+            Gui, WinMode:Color, F44E3F
         }
         SetTimer, RemoveToolTip, -1000
     return
