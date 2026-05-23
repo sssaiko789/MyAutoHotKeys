@@ -10,10 +10,18 @@
 
 navMode := false
 subMode := "none"
-selMode := false ;inutile
+
+
+;si caps est maintenu sa active capsheld
+CapsLock::
+    SetTimer, CapsHeld, 500
+return
 
 ; Majuscule pour activer/désactiver le mode navigation
-CapsLock::  
+CapsLock Up:: 
+    ;descative le timer car caps a ete appuie uniqument
+    SetTimer, CapsHeld, Off
+
     navMode := !navMode
     
     if (navMode)
@@ -27,7 +35,7 @@ CapsLock::
         Gui, WinMode:Font, cWhite s10 Bold, Segoe UI
         Gui, WinMode:Add, Text,, NAVIGATION MODE
         Gui, WinMode:Show, x10 y1030 NoActivate
-
+      
     }
     else
     {
@@ -35,16 +43,26 @@ CapsLock::
 
         ; Supprime le GUI
         Gui, WinMode:Destroy
-        ; Supprime le GUI de selection si il est actif
-        Gui, SelMode:Destroy
 
-        selMode := False ; desactive le mode selection si il est actif
-        winswitchMode := False ; desactive le mode changement de fenetres
     }
 return
 
+CapsHeld:
+    SetTimer, CapsHeld, Off
+    Tooltip, Clear ON
+    SetTimer, RemoveToolTip, -1000
 
+    Gui, WinMode1:Destroy
+    Gui, WinMode2:Destroy
+    Gui, WinMode2_1:Destroy
+    Gui, WinMode3:Destroy
+    navMode := False
+    subMode := "none"
+    NumMode := "none"
+    rowMode := "none"
+    
 
+return
 
 
 
@@ -52,65 +70,13 @@ return
 
 #if (navMode && subMode = "none" ) ;activer uniuqment quand navMode est actif
     ; Touches de nlavigation
-    n::Send {Left}
-    e::Send {Down}
-    u::Send {Up}
-    i::Send {Right}
+    n::Left
+    e::Down
+    u::Up
+    i::Right
 #if
 
 
-
-
-#if (navMode && subMode = "select")
-    ; Navigation plus ctrl
-    ^n::Send ^{Left}
-    ^e::Send ^{Down}
-    ^u::Send ^{Up}
-    ^i::Send ^{Right}
-
-
-    ; selection
-    +n::Send +{Left}
-    +e::Send +{Down}
-    +u::Send +{Up}
-    +i::Send +{Right}
-#if
-
-
-
-
-#if navMode
-
-    s::
-        ;selMode := !selMode
-        if (subMode = "none" || (subMode != "none" && subMode != "select"))
-        {
-            subMode := "select"
-
-            Gui, WinMode:Color, 5C946E
-            Tooltip, Selection Mode ON
-        }
-        else
-        {   
-            subMode := "none"
-
-            Tooltip, Selection Mode OFF
-            Gui, WinMode:Color, F44E3F
-        }
-        SetTimer, RemoveToolTip, -1000
-    return
-
-#if
-
-
-
-#if (subMode = "select")
-    ; selection plus ctrl
-    n::Send ^+{Left}
-    e::Send ^+{Down}
-    u::Send ^+{Up}
-    i::Send ^+{Right}
-#if selMode
 
 
 
@@ -120,56 +86,42 @@ return
     ; Touches de supression
     ; suprimer un charactere
     t::Send {BackSpace}
-
     ; suprimer un mot
     d::send ^{BackSpace}
 
-
-
-
+    ; echap
+    q::send {Esc}
 
     ; annuler
     z::send ^{z}
 
-    ; retablir
-    q::send ^+{z}
-
-
-
-
-    ; copier coller
+    ; copier couper coller
     c::send ^{c}
     v::send ^{v}
-
-
-
+    x::send ^{x}
+    
 #If
 
 
 
+;script pour home row mod
+#Include, mods\homerowMode.ahk
 
-
-
-#Include, winswitchMode.ahk
-
-
-
-
-
-
+;script pour le mode changement de fenetrea
+#Include, mods\winswitchMode.ahk
 
 
 
 ;scipt math mode
-#Include, mathMode.ahk
+#Include, mods\mathMode.ahk
 
 
 
 
 ;script pour eteinder+veille+verrouiller mom ordi avec turnoff+tab
-#Include, turnoff.ahk
+#Include, mods\turnoff.ahk
 
 
-
-
+;script pour transformer arstqwfpgn en chiffres
+#Include, mods\numMode.ahk
 
