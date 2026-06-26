@@ -73,11 +73,11 @@ return
 
 #if (rowMode = "homerowL")
     a::Shift
-    r::Ctrl
+    t::Ctrl
 #if
 
 #if (rowMode = "homerowR")
     o::Shift
-    i::Ctrl
+    n::Ctrl
 #if
 

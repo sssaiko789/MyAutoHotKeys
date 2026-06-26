@@ -90,7 +90,7 @@ return
     d::send ^{BackSpace}
 
     ; echap
-    q::send {Esc}
+    a::send {Esc}
 
     ; annuler
     z::send ^{z}
