@@ -19,21 +19,21 @@ return
 
 #if frenchmode
 
-::a1c::à
-::A1c::À
-::achap::â
-::Achap::Â
-::a2c::á
-::A2c::Á
+:*?:a1c::à
+:*?:A1c::À
+:*?:achap::â
+:*?:Achap::Â
+:*?:a2c::á
+:*?:A2c::Á
 
-::e1c::é
-::E1c::É
-::e2c::è
-::E2c::È
-::echapo::ê
-::Echapo::Ê
+:*?:e1c::é
+:*?:E1c::É
+:*?:e2c::è
+:*?:E2c::È
+:*?:echapo::ê
+:*?:Echapo::Ê
 
-::c1c::ç
-::C1c::Ç
+:*?:c1c::ç
+:*?:C1c::Ç
 
 #If 
